@@ -63,26 +63,34 @@ class TrainsCollection:
 def cli():
     """command-line interface"""
     arguments = docopt(__doc__)
-    print(arguments)
+    # print(arguments)
     from_station = stations.get(arguments['<from>'])
     to_station = stations.get(arguments['<to>'])
     # from_station = "上海"
     # to_station = "北京"
     date = arguments['<date>']
 
-    url = ('https://kyfw.12306.cn/otn/leftTicket/queryO?'
+    # url = ('https://kyfw.12306.cn/otn/leftTicket/queryO?'
+    #        'leftTicketDTO.train_date={}&'
+    #        'leftTicketDTO.from_station={}&leftTicketDTO.to_station={}&purpose_codes=ADULT').format(
+    #             date, from_station, to_station
+    #        )
+
+    # url ="https://kyfw.12306.cn/otn/leftTicket/query?leftTicketDTO.train_date=2018-06-05&leftTicketDTO.from_station=GZQ&leftTicketDTO.to_station=CSQ&purpose_codes=ADULT"
+    url = ('https://kyfw.12306.cn/otn/leftTicket/query?'
            'leftTicketDTO.train_date={}&'
            'leftTicketDTO.from_station={}&leftTicketDTO.to_station={}&purpose_codes=ADULT').format(
                 date, from_station, to_station
            )
+    print("====url====" + url)
     r = requests.get(url, verify=False)
-    print(r.json())
-    # available_trains = r.json()['data']['result']
-    # available_place = r.json()['data']['map']
-    # options = ''.join([
-    #     key for key, value in arguments.items() if value is True
-    # ])
-    # TrainsCollection(available_trains,available_place, options).pretty_print()
+    # print(r.json())
+    available_trains = r.json()['data']['result']
+    available_place = r.json()['data']['map']
+    options = ''.join([
+        key for key, value in arguments.items() if value is True
+    ])
+    TrainsCollection(available_trains,available_place, options).pretty_print()
 
 
 if __name__ == '__main__':

@@ -102,3 +102,8 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+
+#huanjing
+.idea/gitee.iml
+.idea/misc.iml
